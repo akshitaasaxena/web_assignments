@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+</head>
+<body>
+
+    <form action="/update/<%=data._id%>" method="POST">
+    
+        <input type="text" name="name" placeholder="Enter Mobile Name" value="<%=data.name%>">
+    
+        <input type="text" name="model" placeholder="Enter Model" value="<%=data.model%>">
+    
+        <input type="text" name="ram" placeholder="Enter RAM" value="<%=data.ram%>">
+    
+        <input type="text" name="storage" placeholder="Enter Storage" value="<%=data.storage%>">
+    
+        <input type="number" name="price" placeholder="Enter Price" value="<%=data.price%>">
+
+        <input type="text" name="brand" placeholder="Enter Brand" value="<%=data.brand%>">
+    
+        <button type="submit">Edit Mobile</button>
+
+    </form>
+    
+</body>
+</html>

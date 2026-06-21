@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Mobile</title>
+    
+</head>
+<body>
+
+    <h1>Search Mobile By Brand</h1>
+
+    <form action="/searchbrand" method="GET">
+
+        <input type="text" name="brand" placeholder="Enter Brand Name">
+
+        <button type="submit">Search</button>
+
+    </form>
+
+    <hr>
+
+    <% data.forEach((element)=>{ %>
+
+        <h2><%= element.name %></h2>
+
+        <h3>Model: <%= element.model %></h3>
+
+        <h3>RAM: <%= element.ram %></h3>
+
+        <h3>Storage: <%= element.storage %></h3>
+
+        <h3>Price: ₹<%= element.price %></h3>
+                <h3>Brand: <%= element.brand %></h3>
+
+
+        <hr>
+
+    <% }) %>
+
+</body>
+</html>

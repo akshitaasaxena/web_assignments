@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Mobiles</title>
+
+    <style>
+        .container{
+            display:flex;
+            flex-wrap:wrap;
+            gap:20px;
+        }
+
+        .card{
+            border:1px solid black;
+            padding:20px;
+            width:250px;
+        }
+
+        .card h2{
+            margin-top:0;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>All Mobile Data</h1>
+
+    <div class="container">
+
+        <% allmobile.forEach((element)=>{ %>
+
+            <div class="card">
+
+                <h2><%= element.name %></h2>
+
+                <h3>Model: <%= element.model %></h3>
+
+                <h3>RAM: <%= element.ram %></h3>
+
+                <h3>Storage: <%= element.storage %></h3>
+
+                <h3>Price: ₹<%= element.price %></h3>
+                <h3>Brand: <%= element.brand %></h3>
+                
+
+                <a href="/edit/<%= element._id %>">Edit</a>
+
+                <a href="/delete/<%= element._id %>">Delete</a>
+               
+              
+
+            </div>
+
+        <% }) %>
+
+    </div>
+
+    <br><br>
+
+
+</body>
+</html>

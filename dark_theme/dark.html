@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .dark{
+            background-color: black;
+            color: white;
+        }
+  
+  body{
+    height: 100vh;
+  }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>click to add dark theme</h1>
+        <button onclick="change()">change</button>
+
+    </main>
+    <script>
+
+        function change(){
+            let body=document.querySelectorAll("body");
+
+            body[0].classList.toggle("dark");
+        }
+    </script>
+</body>
+</html>

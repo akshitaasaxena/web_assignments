@@ -21,6 +21,6 @@ btn.forEach(button=>{
     else{
         string+=e.target.innerHTML;
         input.value=string;
-    }
+    } 
 })
 })

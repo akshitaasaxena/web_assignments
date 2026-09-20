@@ -1,0 +1,60 @@
+<%- include("partials/header") %>
+
+<div class="page-header">
+    <h1>My Bookings</h1>
+    <p>View and manage your parking bookings.</p>
+</div>
+
+<!-- Success/Error Messages -->
+<% if (success) { %>
+    <div class="alert alert-success"><%= success %></div>
+<% } %>
+<% if (error) { %>
+    <div class="alert alert-error"><%= error %></div>
+<% } %>
+
+<% if (bookings.length === 0) { %>
+    <div class="empty-state">
+        <p>You don't have any bookings yet.</p>
+        <a href="/slots" class="btn btn-primary">Browse Parking Slots</a>
+    </div>
+<% } else { %>
+    <div class="table-container">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Slot Number</th>
+                    <th>Zone</th>
+                    <th>Booked On</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (var i = 0; i < bookings.length; i++) { %>
+                    <tr>
+                        <td><strong><%= bookings[i].slotNumber %></strong></td>
+                        <td><%= bookings[i].zone %></td>
+                        <td><%= bookings[i].createdAt.toLocaleDateString() %> <%= bookings[i].createdAt.toLocaleTimeString() %></td>
+                        <td>
+                            <span class="status-badge status-<%= bookings[i].status %>">
+                                <%= bookings[i].status.toUpperCase() %>
+                            </span>
+                        </td>
+                        <td>
+                            <% if (bookings[i].status === "active") { %>
+                                <form action="/cancel/<%= bookings[i]._id %>" method="POST" style="display:inline;">
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to cancel this booking?')">Cancel</button>
+                                </form>
+                            <% } else { %>
+                                <span class="text-muted">Cancelled</span>
+                            <% } %>
+                        </td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+<% } %>
+
+<%- include("partials/footer") %>

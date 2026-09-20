@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ParkEase — Parking Management</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <a href="/">🅿️ ParkEase</a>
+        </div>
+        <div class="nav-links">
+            <% if (currentUser) { %>
+                <% if (currentUserRole === "admin") { %>
+                    <a href="/admin/dashboard">Dashboard</a>
+                    <a href="/admin/slots">Manage Slots</a>
+                    <a href="/admin/bookings">All Bookings</a>
+                <% } else { %>
+                    <a href="/dashboard">Dashboard</a>
+                    <a href="/slots">Parking Slots</a>
+                    <a href="/my-bookings">My Bookings</a>
+                <% } %>
+                <a href="/logout" class="btn btn-outline">Logout</a>
+            <% } else { %>
+                <a href="/login">Login</a>
+                <a href="/register" class="btn btn-primary">Register</a>
+            <% } %>
+        </div>
+    </nav>
+    <main class="container">

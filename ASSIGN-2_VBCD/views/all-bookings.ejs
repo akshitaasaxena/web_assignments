@@ -1,0 +1,43 @@
+<%- include("partials/header") %>
+
+<div class="page-header">
+    <h1>All Bookings</h1>
+    <p>View every booking in the system.</p>
+</div>
+
+<% if (bookings.length === 0) { %>
+    <div class="empty-state">
+        <p>No bookings have been made yet.</p>
+    </div>
+<% } else { %>
+    <div class="table-container">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Slot Number</th>
+                    <th>Zone</th>
+                    <th>Booked On</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (var i = 0; i < bookings.length; i++) { %>
+                    <tr>
+                        <td><%= bookings[i].userName %></td>
+                        <td><strong><%= bookings[i].slotNumber %></strong></td>
+                        <td><%= bookings[i].zone %></td>
+                        <td><%= bookings[i].createdAt.toLocaleDateString() %> <%= bookings[i].createdAt.toLocaleTimeString() %></td>
+                        <td>
+                            <span class="status-badge status-<%= bookings[i].status %>">
+                                <%= bookings[i].status.toUpperCase() %>
+                            </span>
+                        </td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+<% } %>
+
+<%- include("partials/footer") %>

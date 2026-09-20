@@ -1,0 +1,119 @@
+<%- include("partials/header") %>
+
+<div class="page-header">
+    <h1>Manage Parking Slots</h1>
+    <p>Add, edit, delete, and block/unblock parking slots.</p>
+</div>
+
+<!-- Success/Error Messages -->
+<% if (success) { %>
+    <div class="alert alert-success"><%= success %></div>
+<% } %>
+<% if (error) { %>
+    <div class="alert alert-error"><%= error %></div>
+<% } %>
+
+<!-- Add / Edit Slot Form -->
+<div class="form-card">
+    <% if (editSlot) { %>
+        <h2>Edit Slot: <%= editSlot.slotNumber %></h2>
+        <form action="/admin/slots/edit/<%= editSlot._id %>" method="POST" class="inline-form">
+    <% } else { %>
+        <h2>Add New Slot</h2>
+        <form action="/admin/slots/add" method="POST" class="inline-form">
+    <% } %>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="slotNumber">Slot Number</label>
+                <input type="text" id="slotNumber" name="slotNumber" placeholder="e.g., A-01" value="<%= editSlot ? editSlot.slotNumber : '' %>" required>
+            </div>
+
+            <div class="form-group">
+                <label for="zone">Zone</label>
+                <input type="text" id="zone" name="zone" placeholder="e.g., Zone A" value="<%= editSlot ? editSlot.zone : '' %>" required>
+            </div>
+
+            <div class="form-group">
+                <label for="location">Location</label>
+                <input type="text" id="location" name="location" placeholder="e.g., Mall" value="<%= editSlot ? editSlot.location : '' %>" required>
+            </div>
+
+            <div class="form-group">
+                <label for="vehicleType">Vehicle Type</label>
+                <select id="vehicleType" name="vehicleType" required>
+                    <option value="car" <%= editSlot && editSlot.vehicleType === 'car' ? 'selected' : '' %>>Car</option>
+                    <option value="bike" <%= editSlot && editSlot.vehicleType === 'bike' ? 'selected' : '' %>>Bike</option>
+                    <option value="truck" <%= editSlot && editSlot.vehicleType === 'truck' ? 'selected' : '' %>>Truck</option>
+                </select>
+            </div>
+
+            <div class="form-group form-btn-group">
+                <% if (editSlot) { %>
+                    <button type="submit" class="btn btn-primary">Update Slot</button>
+                    <a href="/admin/slots" class="btn btn-outline">Cancel Edit</a>
+                <% } else { %>
+                    <button type="submit" class="btn btn-primary">Add Slot</button>
+                <% } %>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Slots Table -->
+<% if (slots.length === 0) { %>
+    <div class="empty-state">
+        <p>No parking slots yet. Use the form above to add some!</p>
+    </div>
+<% } else { %>
+    <div class="table-container">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Slot Number</th>
+                    <th>Zone</th>
+                    <th>Location</th>
+                    <th>Vehicle</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (var i = 0; i < slots.length; i++) { %>
+                    <tr>
+                        <td><strong><%= slots[i].slotNumber %></strong></td>
+                        <td><%= slots[i].zone %></td>
+                        <td><%= slots[i].location %></td>
+                        <td><%= slots[i].vehicleType %></td>
+                        <td>
+                            <span class="status-badge status-<%= slots[i].status %>">
+                                <%= slots[i].status.toUpperCase() %>
+                            </span>
+                        </td>
+                        <td class="action-buttons">
+                            <a href="/admin/slots/edit/<%= slots[i]._id %>" class="btn btn-sm btn-outline">Edit</a>
+
+                            <!-- Block / Unblock -->
+                            <form action="/admin/slots/toggle-block/<%= slots[i]._id %>" method="POST" style="display:inline;">
+                                <% if (slots[i].status === "blocked") { %>
+                                    <button type="submit" class="btn btn-sm btn-success">Unblock</button>
+                                <% } else if (slots[i].status === "available") { %>
+                                    <button type="submit" class="btn btn-sm btn-warning">Block</button>
+                                <% } else { %>
+                                    <button type="button" class="btn btn-sm btn-disabled" disabled title="Cancel booking first">Block</button>
+                                <% } %>
+                            </form>
+
+                            <!-- Delete -->
+                            <form action="/admin/slots/delete/<%= slots[i]._id %>" method="POST" style="display:inline;">
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Delete slot <%= slots[i].slotNumber %>? This will cancel any active bookings.')">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+<% } %>
+
+<%- include("partials/footer") %>

@@ -1,0 +1,102 @@
+<%- include("partials/header") %>
+
+<div class="page-header">
+    <h1>Parking Slots</h1>
+    <p>Browse and book available parking slots.</p>
+</div>
+
+<!-- Success/Error Messages -->
+<% if (success) { %>
+    <div class="alert alert-success"><%= success %></div>
+<% } %>
+<% if (error) { %>
+    <div class="alert alert-error"><%= error %></div>
+<% } %>
+
+<!-- Filter Form -->
+<div class="filter-bar">
+    <form action="/slots" method="GET" class="filter-form">
+        <div class="filter-group">
+            <label for="zone">Zone</label>
+            <select id="zone" name="zone">
+                <option value="">All Zones</option>
+                <% for (var i = 0; i < allZones.length; i++) { %>
+                    <option value="<%= allZones[i] %>" <%= selectedZone === allZones[i] ? "selected" : "" %>>
+                        <%= allZones[i] %>
+                    </option>
+                <% } %>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label for="location">Location</label>
+            <select id="location" name="location">
+                <option value="">All Locations</option>
+                <% for (var i = 0; i < allLocations.length; i++) { %>
+                    <option value="<%= allLocations[i] %>" <%= selectedLocation === allLocations[i] ? "selected" : "" %>>
+                        <%= allLocations[i] %>
+                    </option>
+                <% } %>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label for="vehicleType">Vehicle Type</label>
+            <select id="vehicleType" name="vehicleType">
+                <option value="">All Types</option>
+                <option value="car" <%= selectedVehicleType === "car" ? "selected" : "" %>>Car</option>
+                <option value="bike" <%= selectedVehicleType === "bike" ? "selected" : "" %>>Bike</option>
+                <option value="truck" <%= selectedVehicleType === "truck" ? "selected" : "" %>>Truck</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label for="status">Status</label>
+            <select id="status" name="status">
+                <option value="">All</option>
+                <option value="available" <%= selectedStatus === "available" ? "selected" : "" %>>Available</option>
+                <option value="occupied" <%= selectedStatus === "occupied" ? "selected" : "" %>>Occupied</option>
+                <option value="blocked" <%= selectedStatus === "blocked" ? "selected" : "" %>>Blocked</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Filter</button>
+        <a href="/slots" class="btn btn-outline">Clear</a>
+    </form>
+</div>
+
+<!-- Slots Grid -->
+<% if (slots.length === 0) { %>
+    <div class="empty-state">
+        <p>No parking slots found. Try changing your filters.</p>
+    </div>
+<% } else { %>
+    <div class="slots-grid">
+        <% for (var i = 0; i < slots.length; i++) { %>
+            <div class="slot-card slot-<%= slots[i].status %>">
+                <div class="slot-header">
+                    <span class="slot-number"><%= slots[i].slotNumber %></span>
+                    <span class="status-badge status-<%= slots[i].status %>"><%= slots[i].status.toUpperCase() %></span>
+                </div>
+                <div class="slot-details">
+                    <p><strong>Zone:</strong> <%= slots[i].zone %></p>
+                    <p><strong>Location:</strong> <%= slots[i].location %></p>
+                    <p><strong>Vehicle:</strong> <%= slots[i].vehicleType %></p>
+                </div>
+                <div class="slot-action">
+                    <% if (slots[i].status === "available") { %>
+                        <form action="/book/<%= slots[i]._id %>" method="POST">
+                            <button type="submit" class="btn btn-primary btn-full">Book This Slot</button>
+                        </form>
+                    <% } else if (slots[i].status === "occupied") { %>
+                        <button class="btn btn-disabled btn-full" disabled>Occupied</button>
+                    <% } else { %>
+                        <button class="btn btn-disabled btn-full" disabled>Blocked</button>
+                    <% } %>
+                </div>
+            </div>
+        <% } %>
+    </div>
+<% } %>
+
+<%- include("partials/footer") %>

@@ -1,0 +1,39 @@
+<%- include("partials/header") %>
+
+<div class="page-header">
+    <h1>Welcome, <%= userName %>!</h1>
+    <p>Here's your parking overview.</p>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-number"><%= activeBookings %></div>
+        <div class="stat-label">Active Bookings</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number"><%= availableSlots %></div>
+        <div class="stat-label">Available Slots</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number"><%= totalSlots %></div>
+        <div class="stat-label">Total Slots</div>
+    </div>
+</div>
+
+<div class="quick-actions">
+    <h2>Quick Actions</h2>
+    <div class="action-grid">
+        <a href="/slots" class="action-card">
+            <div class="action-icon">🅿️</div>
+            <h3>Browse Slots</h3>
+            <p>Find and book available parking slots</p>
+        </a>
+        <a href="/my-bookings" class="action-card">
+            <div class="action-icon">📋</div>
+            <h3>My Bookings</h3>
+            <p>View or cancel your bookings</p>
+        </a>
+    </div>
+</div>
+
+<%- include("partials/footer") %>

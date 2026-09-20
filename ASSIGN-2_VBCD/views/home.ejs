@@ -1,0 +1,46 @@
+<%- include("partials/header") %>
+
+<div class="hero">
+    <h1>Welcome to ParkEase</h1>
+    <p class="hero-subtitle">Smart Parking Management & Slot Booking System</p>
+    <p class="hero-description">Find, book, and manage parking slots for apartments, offices, malls, and public lots — all in one place.</p>
+
+    <div class="hero-actions">
+        <% if (currentUser) { %>
+            <% if (currentUserRole === "admin") { %>
+                <a href="/admin/dashboard" class="btn btn-primary btn-lg">Go to Admin Dashboard</a>
+            <% } else { %>
+                <a href="/slots" class="btn btn-primary btn-lg">Browse Parking Slots</a>
+                <a href="/dashboard" class="btn btn-outline btn-lg">My Dashboard</a>
+            <% } %>
+        <% } else { %>
+            <a href="/register" class="btn btn-primary btn-lg">Get Started</a>
+            <a href="/login" class="btn btn-outline btn-lg">Login</a>
+        <% } %>
+    </div>
+</div>
+
+<div class="features-grid">
+    <div class="feature-card">
+        <div class="feature-icon">🔍</div>
+        <h3>Find Slots</h3>
+        <p>Browse available parking slots and filter by zone, location, or vehicle type.</p>
+    </div>
+    <div class="feature-card">
+        <div class="feature-icon">📋</div>
+        <h3>Easy Booking</h3>
+        <p>Book a parking slot in seconds with just one click.</p>
+    </div>
+    <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Dashboard</h3>
+        <p>Track your bookings and view real-time slot availability.</p>
+    </div>
+    <div class="feature-card">
+        <div class="feature-icon">⚙️</div>
+        <h3>Admin Control</h3>
+        <p>Manage zones, slots, and bookings from a powerful admin panel.</p>
+    </div>
+</div>
+
+<%- include("partials/footer") %>

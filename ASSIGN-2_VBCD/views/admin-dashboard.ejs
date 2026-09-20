@@ -1,0 +1,93 @@
+<%- include("partials/header") %>
+
+<div class="page-header">
+    <h1>Admin Dashboard</h1>
+    <p>Parking system overview and statistics.</p>
+</div>
+
+<!-- Stats Cards -->
+<div class="stats-grid stats-grid-4">
+    <div class="stat-card stat-total">
+        <div class="stat-number"><%= totalSlots %></div>
+        <div class="stat-label">Total Slots</div>
+    </div>
+    <div class="stat-card stat-available">
+        <div class="stat-number"><%= availableSlots %></div>
+        <div class="stat-label">Available</div>
+    </div>
+    <div class="stat-card stat-occupied">
+        <div class="stat-number"><%= occupiedSlots %></div>
+        <div class="stat-label">Occupied</div>
+    </div>
+    <div class="stat-card stat-blocked">
+        <div class="stat-number"><%= blockedSlots %></div>
+        <div class="stat-label">Blocked</div>
+    </div>
+</div>
+
+<!-- Today's Bookings -->
+<div class="dashboard-section">
+    <h2>📅 Today's Bookings: <strong><%= todaysBookings %></strong></h2>
+</div>
+
+<!-- Occupancy Bar -->
+<% if (totalSlots > 0) { %>
+<div class="dashboard-section">
+    <h2>Overall Occupancy</h2>
+    <div class="occupancy-bar">
+        <div class="occupancy-fill occupancy-available" style="width: <%= (availableSlots / totalSlots * 100) %>%">
+            <% if (availableSlots > 0) { %>Available (<%= availableSlots %>)<% } %>
+        </div>
+        <div class="occupancy-fill occupancy-occupied" style="width: <%= (occupiedSlots / totalSlots * 100) %>%">
+            <% if (occupiedSlots > 0) { %>Occupied (<%= occupiedSlots %>)<% } %>
+        </div>
+        <div class="occupancy-fill occupancy-blocked" style="width: <%= (blockedSlots / totalSlots * 100) %>%">
+            <% if (blockedSlots > 0) { %>Blocked (<%= blockedSlots %>)<% } %>
+        </div>
+    </div>
+</div>
+<% } %>
+
+<!-- Zone-wise Occupancy Table -->
+<% if (zoneStats.length > 0) { %>
+<div class="dashboard-section">
+    <h2>Zone-wise Occupancy</h2>
+    <div class="table-container">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Zone</th>
+                    <th>Total</th>
+                    <th>Available</th>
+                    <th>Occupied</th>
+                    <th>Blocked</th>
+                    <th>Occupancy</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (var i = 0; i < zoneStats.length; i++) { %>
+                    <tr>
+                        <td><strong><%= zoneStats[i].zone %></strong></td>
+                        <td><%= zoneStats[i].total %></td>
+                        <td><span class="text-success"><%= zoneStats[i].available %></span></td>
+                        <td><span class="text-warning"><%= zoneStats[i].occupied %></span></td>
+                        <td><span class="text-danger"><%= zoneStats[i].blocked %></span></td>
+                        <td>
+                            <div class="mini-bar">
+                                <div class="mini-fill" style="width: <%= zoneStats[i].total > 0 ? (zoneStats[i].occupied / zoneStats[i].total * 100) : 0 %>%"></div>
+                            </div>
+                            <small><%= zoneStats[i].total > 0 ? Math.round(zoneStats[i].occupied / zoneStats[i].total * 100) : 0 %>%</small>
+                        </td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+</div>
+<% } else { %>
+<div class="empty-state">
+    <p>No parking slots have been created yet. <a href="/admin/slots">Add some slots</a> to get started.</p>
+</div>
+<% } %>
+
+<%- include("partials/footer") %>
